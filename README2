@@ -5,9 +5,23 @@ This data contains per game and advanced metrics for NBA players between the 201
 
 I am interested in predicting how many points a player will average during a season
   Key indicators of scoring in the NBA are shooting percentage and position
+    
+   Position
     Different positions are placed at different parts of the court
-    Some are closer to the basket than others and this will affect how often they make shots
+    Some positionsare closer to the basket than others and this will affect how often they make shots
     Some players take more 3 point shots than others, so this will also affect how may points they score
+    
+  3 point attempt rate
     3 point attempt rate tracks the proportion of 3 point shots a player takes to their total number of shots
+    
+  True Shooting Percentage (TS%)
     True shooting percentage encapsulates 2 point field goal percentage, 3 point field goal percentage, and free throw percentage
+    
+  Conference 
+    All teams in the NBA are in either the Western or Eastern Conference
+    The quality of play in one conference is potentially higher in once conference than the other
+    This could have an affect on the number of points scored by a player
+    
+  Average Shooting
+    Players who shoot above the league average will likely score more than those who have worse shooting percentages
     
