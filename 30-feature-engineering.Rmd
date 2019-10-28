@@ -1,0 +1,47 @@
+---
+title: "30-feature-engineering"
+output: html_notebook
+---
+
+## Standardize by position
+
+Every position in basketball is expected to perform different tasks on the court. Some positions are expected to distribute the ball to the scorers. Others are expected to grab rebounds after missed shots. Values may differ between positions because of the differing skill sets. I want to standardize numeric values by position to see where each player stands within their own position in different performance metrics, specifically shooting percentange. This function will standardize true shooting percentage and three point attempt rate. TS% is a combination fo 2 point field goal percentage, 3 point field goal percentage, and free throw percentage. I feel as though this is the best measure of a player's shooting ability, which is important to scoring points. 3 point attempt rate is the proportion of three point shots to overall shots. Players who take more three point shots have a better chance of scoring more points. 
+
+```{r standardize}
+scale <- function(x, na.rm = TRUE)(x - mean(x, na.rm = na.rm)) / sd(x, na.rm = na.rm)
+
+std_num <- function(df, vars) {
+  df %>%
+    group_by(pos) %>%
+    mutate_at(vars, list(std_pos = scale)) %>%
+    ungroup() %>%
+    select(pos, contains("_pos"), vars, everything()) %>%
+    arrange(pos)
+}
+
+```
+
+## Numeric position
+
+Similar to the last feature, position is important to predicting the amount of points scored by a player. Changing the categorical data in this column to a numeric value will make it easier to input into a machine learning algorithm. This function takes the string for each positions and gives it a numeric values as follows: PG = 0, SG = 1, SF = 2, PF = 3, C = 4. 
+
+
+```{r num_pos}
+position1 <- function(x){
+  if(x == "PG"){0} 
+  else if(x == "SG"){1} 
+  else if (x == "SF"){2}
+  else if (x == "PF"){3}
+  else{4}
+}
+
+position1 <- Vectorize(position1)
+
+position <- function(df){
+  df %>%
+    mutate_at("pos", (position = position1)) %>%
+    select("pos", everything())
+}
+
+```
+

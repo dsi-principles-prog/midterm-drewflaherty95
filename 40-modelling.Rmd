@@ -1,0 +1,19 @@
+---
+title: "40-modelling"
+output: html_notebook
+---
+
+## Preparing data for modelling 
+
+I am applying my feature engineering functions to my data set to prepare it for putting into a model
+
+```{r model_prep}
+NBA_stats <- NBA_stats %>%
+  std_num(c("ts_percent", "x3p_ar")) %>%
+  position() %>%
+  assert(not_na, "ts_percent_std_pos") %>%
+  assert(not_na, "x3p_ar_std_pos") %>%
+  assert(within_bounds(0, 4), "pos")
+
+```
+

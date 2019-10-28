@@ -1,0 +1,102 @@
+---
+title: "10-import"
+output: html_notebook
+---
+
+## Import Libraries
+
+```{r libraries}
+library(tidyverse)
+library(readr)
+library(assertr)
+library(janitor)
+```
+
+## Import Data and clean names
+
+```{r import_data}
+NBA_stats <- read_csv("NBA_stats.csv") %>%
+  clean_names()
+```
+
+## Check columns for NA values
+
+We want to check all of the columns to if there are any NA values present. 
+
+```{r col_na}
+for(col_name in names(NBA_stats)) {
+  NBA_stats %>% 
+    assert(not_na, col_name)
+}
+```
+
+There are 17 NAs in for the field goal percentage variable. This is likely because the player took 0 shots and you cannot divide by 0 to create a percentage. 
+
+## Set NA values to 0
+
+I will set the values for the NAs as 0 for these rows because these players technically shot 0%.  
+
+```{r na_zero}
+NBA_stats[is.na(NBA_stats)] <- 0
+```
+
+## Checking for NA values again
+
+```{r recheck}
+for(col_name in names(NBA_stats)) {
+  NBA_stats %>% 
+    assert(not_na, col_name)
+}
+```
+
+
+## Move player effeciency rating to be last column
+
+This will be useful for our next assert, because per can have negative values. 
+
+```{r move_per}
+NBA_stats <- NBA_stats %>%
+  select(-per, everything())
+```
+
+## Check columns for negative numbers
+
+Columns 5-40 should not have any negative numbers. These are stats for percentages and other values that cannot be negative. Columns 41-49 can be negative because they track metrics like win shares and +/-. Win shares account for the number of wins a player has contributed to, so it is possible for a player to have negative win shares if they negatively contributed to the team. The same goes for +/- which tracks the difference between the score when a player entered the game and when they leave. 
+
+```{r check_positive}
+for(col_name in names(NBA_stats[, 5:40])) {
+  NBA_stats %>% 
+    assert(within_bounds(0, Inf), col_name)
+}
+```
+
+## Check for numeric values
+
+Columns 41-49 should all be between negative infinity and infintiy. It is possible for these variables to be negative. 
+```{r check_numeric}
+for(col_name in names(NBA_stats[, 41:49])) {
+  NBA_stats %>% 
+    assert(within_bounds(-Inf, Inf), col_name)
+}
+```
+
+## Remove Row
+
+If a player was traded during the middle of the season, the data lists their stats from both teams and the the total stats from the season. This results in their being an extra row for all players who were traded. I am removing the rows that contain the total stats for the players, and leaving rows that have the stats they had for each team. My reasoning for this is that team affiliation can affect the number of points a player scores. 
+
+```{r row_remove}
+NBA_stats <-NBA_stats[!(NBA_stats$tm=="TOT"),]
+```
+
+## Add variable for conference
+
+There are two conferences in the NBA, eastern and western. The western conference has recently been the stronger of the two in terms of talent. I believe the conference that a player plays in could potentially have an impact on the number of points they are able to score. 
+
+```{r con_variable}
+N <- length(NBA_stats$tm)
+NBA_stats <- NBA_stats %>%
+  mutate(con = ifelse(tm=="BRK"|tm=="NYK"|tm=="ATL"|tm=="MIA"|tm=="IND"|tm=="MIL"|tm=="TOR"|tm=="CHI"|tm=="WAS"|tm=="ORL"|tm=="CHO"|tm=="BOS"|tm=="CLE"|tm=="PHI"|tm=="DET", "EC", "WC")) %>%
+  select(con, everything())
+
+```
+
