@@ -1,3 +1,13 @@
-NBA Individual Player Statistics 2015-2019
+NBA Individual Player Statistics 2014-2019
 Source: Basketball-Reference
 
+This data contains per game and advanced metrics for NBA players between the 2014-2015 and 2018-2019 seasons
+
+I am interested in predicting how many points a player will average during a season
+  Key indicators of scoring in the NBA are shooting percentage and position
+    Different positions are placed at different parts of the court
+    Some are closer to the basket than others and this will affect how often they make shots
+    Some players take more 3 point shots than others, so this will also affect how may points they score
+    3 point attempt rate tracks the proportion of 3 point shots a player takes to their total number of shots
+    True shooting percentage encapsulates 2 point field goal percentage, 3 point field goal percentage, and free throw percentage
+    
