@@ -1484,7 +1484,7 @@ window.initializeCodeFolding = function(show) {
 
     // create a collapsable div to wrap the code in
     var div = $('<div class="collapse r-code-collapse"></div>');
-    if (show)
+    if (show || $(this)[0].classList.contains('fold-show'))
       div.addClass('in');
     var id = 'rcode-643E0F36' + currentIndex++;
     div.attr('id', id);
@@ -1614,7 +1614,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -1755,12 +1754,21 @@ summary {
 <p>I am applying my feature engineering functions to my data set to prepare it for putting into a model</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTkJBX3N0YXRzIDwtIE5CQV9zdGF0cyAlPiVcbiAgc3RkX251bShjKFwidHNfcGVyY2VudFwiLCBcIngzcF9hclwiKSkgJT4lXG4gIHBvc2l0aW9uKCkgJT4lXG4gIGFzc2VydChub3RfbmEsIFwidHNfcGVyY2VudF9zdGRfcG9zXCIpICU+JVxuICBhc3NlcnQobm90X25hLCBcIngzcF9hcl9zdGRfcG9zXCIpICU+JVxuICBhc3NlcnQod2l0aGluX2JvdW5kcygwLCA0KSwgXCJwb3NcIilcblxuYGBgIn0= -->
+<pre class="r"><code>NBA_stats &lt;- NBA_stats %&gt;%
+  std_num(c(&quot;ts_percent&quot;, &quot;x3p_ar&quot;)) %&gt;%
+  position() %&gt;%
+  assert(not_na, &quot;ts_percent_std_pos&quot;) %&gt;%
+  assert(not_na, &quot;x3p_ar_std_pos&quot;) %&gt;%
+  assert(within_bounds(0, 4), &quot;pos&quot;)
+</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIjQwLW1vZGVsbGluZyINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCiMjIFByZXBhcmluZyBkYXRhIGZvciBtb2RlbGxpbmcgDQoNCkkgYW0gYXBwbHlpbmcgbXkgZmVhdHVyZSBlbmdpbmVlcmluZyBmdW5jdGlvbnMgdG8gbXkgZGF0YSBzZXQgdG8gcHJlcGFyZSBpdCBmb3IgcHV0dGluZyBpbnRvIGEgbW9kZWwNCg0KYGBge3IgbW9kZWxfcHJlcH0NCk5CQV9zdGF0cyA8LSBOQkFfc3RhdHMgJT4lDQogIHN0ZF9udW0oYygidHNfcGVyY2VudCIsICJ4M3BfYXIiKSkgJT4lDQogIHBvc2l0aW9uKCkgJT4lDQogIGFzc2VydChub3RfbmEsICJ0c19wZXJjZW50X3N0ZF9wb3MiKSAlPiUNCiAgYXNzZXJ0KG5vdF9uYSwgIngzcF9hcl9zdGRfcG9zIikgJT4lDQogIGFzc2VydCh3aXRoaW5fYm91bmRzKDAsIDQpLCAicG9zIikNCg0KYGBgDQoNCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiNDAtbW9kZWxsaW5nIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIyBQcmVwYXJpbmcgZGF0YSBmb3IgbW9kZWxsaW5nIAoKSSBhbSBhcHBseWluZyBteSBmZWF0dXJlIGVuZ2luZWVyaW5nIGZ1bmN0aW9ucyB0byBteSBkYXRhIHNldCB0byBwcmVwYXJlIGl0IGZvciBwdXR0aW5nIGludG8gYSBtb2RlbAoKYGBge3IgbW9kZWxfcHJlcH0KTkJBX3N0YXRzIDwtIE5CQV9zdGF0cyAlPiUKICBzdGRfbnVtKGMoInRzX3BlcmNlbnQiLCAieDNwX2FyIikpICU+JQogIHBvc2l0aW9uKCkgJT4lCiAgY29uZmVyZW5jZSgpICU+JSAKICBhc3NlcnQobm90X25hLCAidHNfcGVyY2VudF9zdGRfcG9zIikgJT4lCiAgYXNzZXJ0KG5vdF9uYSwgIngzcF9hcl9zdGRfcG9zIikgJT4lCiAgYXNzZXJ0KHdpdGhpbl9ib3VuZHMoMCwgNCksICJwb3MiKSAlPiUgCiAgYXNzZXJ0KHdpdGhpbl9ib3VuZHMoMCwgMSksICJjb24iKQoKYGBgCgo=</div>
 
 
 

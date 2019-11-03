@@ -23,7 +23,7 @@ NBA_stats <- read_csv("NBA_stats.csv") %>%
 
 We want to check all of the columns to if there are any NA values present. 
 
-```{r col_na}
+```{r col_na, eval = FALSE}
 for(col_name in names(NBA_stats)) {
   NBA_stats %>% 
     assert(not_na, col_name)

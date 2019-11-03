@@ -9,7 +9,6 @@ Every position in basketball is expected to perform different tasks on the court
 
 ```{r standardize}
 scale <- function(x, na.rm = TRUE)(x - mean(x, na.rm = na.rm)) / sd(x, na.rm = na.rm)
-
 std_num <- function(df, vars) {
   df %>%
     group_by(pos) %>%
@@ -18,7 +17,6 @@ std_num <- function(df, vars) {
     select(pos, contains("_pos"), vars, everything()) %>%
     arrange(pos)
 }
-
 ```
 
 ## Numeric position
@@ -34,14 +32,30 @@ position1 <- function(x){
   else if (x == "PF"){3}
   else{4}
 }
-
 position1 <- Vectorize(position1)
-
 position <- function(df){
   df %>%
     mutate_at("pos", (position = position1)) %>%
     select("pos", everything())
 }
+```
 
+## Conference Variable
+
+```{r}
+conf <- function(x) {
+  if (x == "WC") {1}
+  else if (x == "EC") {0}
+}
+
+conf <- Vectorize(conf)
+
+conference <- function(df){
+  df %>%
+    mutate_at("con", (conference = conf)) %>%
+    select("con", everything())
+}
+
+conference(NBA_stats)
 ```
 
